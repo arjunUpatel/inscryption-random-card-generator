@@ -17,30 +17,36 @@ const generateCard = async (name, num) => {
     return Math.floor(Math.random() * (max - min + 1) + min); // The maximum is inclusive and the minimum is inclusive
   };
 
+  // the name of the card will be input and the only non-random value
   const populateName = async (elemHandle, name) => {
     const targetField = await elemHandle.$("input");
     await targetField.type("" + name);
   };
 
+  // card type can be input at the start, otherwise it is chosen at random
   const populateType = async (elemHandle) => {
     const typeList = ["common", "rare", "terrain", "rareterrain"];
     const targetField = await elemHandle.$("select");
     await targetField.click();
-    await targetField.select(typeList[1]);
+    await targetField.select(typeList[0]);
   };
 
+  // always random
   const populateHealth = async (elemHandle) => {
     const targetField = await elemHandle.$("input");
     await targetField.click({ clickCount: 3 });
     await targetField.type("" + getRandomIntInclusive(1, 9));
   };
 
+  // always random
   const populatePower = async (elemHandle) => {
     const targetField = await elemHandle.$("label > input[type=number]");
     await targetField.click({ clickCount: 3 });
     await targetField.type("" + getRandomIntInclusive(1, 9));
   };
 
+  // always random
+  // todo: generate cost based
   const populateCost = async (elemHandle) => {
     const blood = getRandomIntInclusive(0, 1);
     const costList = await elemHandle.$$("label");
@@ -60,6 +66,7 @@ const generateCard = async (name, num) => {
   };
 
   // randomly picks a primary sigil
+  // todo: give option to set number of sigils, otherwise randomly selected - 4 max
   const populateSigil = async (elemHandle) => {
     const sigilList = [
       "icecube",
@@ -98,6 +105,8 @@ const generateCard = async (name, num) => {
     );
   };
 
+  // fully randomly selected
+  // todo: include and tune randomness for one eye
   const populatePortrait = async (elemHandle) => {
     const portraitList = await elemHandle.$$("label.portrait");
     const deathCardRadio = await portraitList[1].$("input[type=radio");
@@ -157,7 +166,17 @@ const generateCard = async (name, num) => {
   img = img.substring(22);
 
   let buff = Buffer.from(img, "base64");
-  fs.writeFileSync("images/" + num + ".png", buff);
+  let dir = "./images";
+  if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir, { recursive: true });
+  }
+  fs.writeFileSync(dir + "/" + num + ".png", buff);
 
   await browser.close();
 };
+
+const names = ["A", "B", "C", "D", "E"];
+
+for (let i = 0; i < names.length; i++) {
+  generateCard(names[i], i);
+}
