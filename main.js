@@ -45,8 +45,7 @@ const generateCard = async (name, num) => {
     await targetField.type("" + getRandomIntInclusive(1, 9));
   };
 
-  // always random
-  // todo: generate cost based
+  // optional todo: add option to generate cost based on analysis of other attributes of card
   const populateCost = async (elemHandle) => {
     const blood = getRandomIntInclusive(0, 1);
     const costList = await elemHandle.$$("label");
@@ -175,8 +174,7 @@ const generateCard = async (name, num) => {
   await browser.close();
 };
 
-const names = ["A", "B", "C", "D", "E"];
-
-for (let i = 0; i < names.length; i++) {
-  generateCard(names[i], i);
-}
+// todo:
+// add prompt to input list of names or point to file with list of names
+// add prompt for type of card generated
+// add prompt for number of sigils to be selected
