@@ -10,3 +10,11 @@ Generate randomized Inscryption death cards with the names of your (hopefully al
 
 ## the why
 I love Inscryption, especially the artwork, and I worked as an RA through most of college. So I mixed the both to create personalized death cards for all my floormates to use as door decorations and show some personality while I am at it.
+
+## the how
+The program works by scraping and manipulating [this website](https://generator.cards/) (an online generator of Inscryption Death cards) and randomly populates the fields along with names from the input list of names. The cards are then downloaded to the`images` directory
+
+## tech stack
+- HTML
+- JavaScript
+- Puppeteer
